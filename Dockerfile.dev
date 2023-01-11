@@ -1,11 +1,18 @@
 FROM node:16-alpine
 
-WORKDIR 'app'
+#set the user to be executing instructions
+USER node
 
-COPY package.json .
+#create a director with that can be used by the user and not root
+RUN mkdir -p /home/node/app
+
+WORKDIR '/home/node/app'
+
+#set ownership of the copied files from local to the node user in the container
+COPY --chown=node:node package.json .
 
 RUN npm install
 
-COPY . . 
+COPY --chown=node:node . . 
 
 CMD ["npm", "run", "start"]

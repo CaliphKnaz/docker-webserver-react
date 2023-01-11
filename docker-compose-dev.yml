@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports: 
+            - "3000:3000"
+        #set up volume to track file changes
+        volumes:
+            - /app/node_modules
+            - .:/app
+    
+    
+    tests:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports: 
+            - "3000:3000"
+        #set up volume to track file changes
+        volumes:
+            - /home/node/app/node_modules
+            - .:home/node/app
+        command: ["npm", "run", "test"]
+    
